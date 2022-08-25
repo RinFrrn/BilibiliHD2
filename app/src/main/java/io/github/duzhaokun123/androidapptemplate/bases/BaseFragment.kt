@@ -2,6 +2,7 @@ package io.github.duzhaokun123.androidapptemplate.bases
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
@@ -52,4 +53,7 @@ abstract class BaseFragment<BaseBinding : ViewDataBinding>(@LayoutRes val layout
     open fun initEvents() {}
     open fun initData() {}
     open fun onApplyWindowInsetsCompat(insets: WindowInsetsCompat) {}
+    open fun onNavigationItemReselected(item: MenuItem) {
+        println("---- Reselected ")
+    }
 }

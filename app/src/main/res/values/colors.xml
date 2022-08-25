@@ -20,7 +20,9 @@
     <color name="secondaryColor">@color/primaryColor</color>
     <color name="secondaryLightColor">@color/primaryLightColor</color>
     <color name="secondaryDarkColor">@color/primaryDarkColor</color>
-    <color name="secondaryTextColor">#000000</color>
+    <color name="secondaryTextColor">#993C3C43</color>
+    <color name="tertiaryTextColor">#4D3C3C43</color>
+    <color name="quaternaryTextColor">#293C3C43</color>
     <color name="textColor">#000000</color>
 
     <color name="dimText">#757575</color>

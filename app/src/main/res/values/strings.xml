@@ -46,6 +46,7 @@
     <string name="like">赞</string>
     <string name="dislike">踩</string>
     <string name="coins">硬币</string>
+    <string name="coin_to">投币</string>
     <string name="favorite">收藏</string>
     <string name="refresh_token">刷新 token</string>
     <string name="donate">捐赠</string>
@@ -54,7 +55,7 @@
     <string name="send">发送</string>
     <string name="comment">评论</string>
     <string name="danmaku">弹幕</string>
-    <string name="play_pause_time">播放后台暂停时机</string>
+    <string name="play_pause_time">播放时进入后台暂停时机</string>
     <string name="play">播放</string>
     <string name="play_settings">播放设置</string>
 </resources>

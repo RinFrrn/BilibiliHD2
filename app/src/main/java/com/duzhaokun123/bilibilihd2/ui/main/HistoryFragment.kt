@@ -2,6 +2,7 @@ package com.duzhaokun123.bilibilihd2.ui.main
 
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.WindowInsetsCompat
@@ -11,10 +12,11 @@ import androidx.lifecycle.MutableLiveData
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.bases.BaseSimpleCardGridSRRVFragment
 import com.duzhaokun123.bilibilihd2.databinding.ItemHistoryCardBinding
+import com.duzhaokun123.bilibilihd2.dynamicCardWidthDp
 import com.duzhaokun123.bilibilihd2.model.HistoryCardModel
 import com.duzhaokun123.bilibilihd2.utils.*
+import com.duzhaokun123.generated.Settings
 import com.hiczp.bilibili.api.app.model.History
-import io.github.duzhaokun123.codegen.Settings
 
 class HistoryFragment :
     BaseSimpleCardGridSRRVFragment<ItemHistoryCardBinding, HistoryCardModel, HistoryFragment.HistoryModel>(
@@ -56,6 +58,14 @@ class HistoryFragment :
         }.commonOnFailureHandler(context).getOrNull()
     }
 
+    override fun getColumnCount(view: View): Int {
+        return hopeCardWColumn(view)
+    }
+
+    override fun initViews() {
+        super.initViews()
+    }
+
     override fun initItemView(
         itemBinding: ItemHistoryCardBinding, itemModel: HistoryCardModel, position: Int
     ) {
@@ -86,9 +96,9 @@ class HistoryFragment :
         super.onApplyWindowInsetsCompat(insets)
         with(insets.maxSystemBarsDisplayCutout) {
             baseBinding.srl.updatePadding(left = left, right = right, bottom = bottom)
-            baseBinding.cf.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                bottomMargin = bottom
-            }
+//            baseBinding.cf.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+//                bottomMargin = bottom
+//            }
         }
     }
 

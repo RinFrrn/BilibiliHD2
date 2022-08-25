@@ -3,6 +3,7 @@ package com.duzhaokun123.bilibilihd2.ui.comment
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.widget.PopupMenu
@@ -15,12 +16,12 @@ import com.duzhaokun123.bilibilihd2.databinding.LayoutSendChildCommentBinding
 import com.duzhaokun123.bilibilihd2.model.RootCommentCardModel
 import com.duzhaokun123.bilibilihd2.model.toRootCommentCardModel
 import com.duzhaokun123.bilibilihd2.utils.*
+import com.duzhaokun123.generated.Settings
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 import io.github.duzhaokun123.androidapptemplate.utils.launch
 import io.github.duzhaokun123.androidapptemplate.utils.onSuccess
 import io.github.duzhaokun123.androidapptemplate.utils.runIOCatching
-import io.github.duzhaokun123.codegen.Settings
 
 class ChildCommentFragment @JvmOverloads constructor(private val setOid: Long = 0, private val setType: Int = 0, private val setRoot: Long = 0):
     BaseSimpleCardListSRRVFragment<ItemRootCommentBinding, RootCommentCardModel, ChildCommentFragment.ChildCommentModel>(
@@ -66,6 +67,12 @@ class ChildCommentFragment @JvmOverloads constructor(private val setOid: Long = 
 
     override fun findViews() {
         layoutSendChildCommentBinding = LayoutSendChildCommentBinding.inflate(layoutInflater)
+
+//        baseBinding.rl.addView(layoutSendChildCommentBinding.root, LinearLayout.LayoutParams(
+//            LinearLayout.LayoutParams.MATCH_PARENT,
+//            LinearLayout.LayoutParams.WRAP_CONTENT
+//        ))
+        // FIXME:
         baseBinding.rl.addView(layoutSendChildCommentBinding.root, RelativeLayout.LayoutParams(
             RelativeLayout.LayoutParams.MATCH_PARENT,
             RelativeLayout.LayoutParams.WRAP_CONTENT

@@ -21,14 +21,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.databinding.ActivityBaseRoot2Binding
+import com.duzhaokun123.generated.Settings
 import com.google.android.material.color.DynamicColors
 import com.microsoft.appcenter.analytics.Analytics
 import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 import io.github.duzhaokun123.androidapptemplate.utils.maxSystemBarsDisplayCutout
-import io.github.duzhaokun123.codegen.Settings
 
 abstract class BaseActivity<BaseBinding : ViewDataBinding>(
-    @LayoutRes val layoutId: Int, vararg val configs: Config, @StyleRes val themeId: Int = R.style.Theme_BilibiliHD2_Base
+    @LayoutRes val layoutId: Int,
+    vararg val configs: Config,
+    @StyleRes val themeId: Int = R.style.Theme_BilibiliHD2_Base
 ) : AppCompatActivity() {
     enum class Config {
         NO_TOOL_BAR,
@@ -56,7 +58,7 @@ abstract class BaseActivity<BaseBinding : ViewDataBinding>(
         isFirstCreate = savedInstanceState == null
         setTheme(themeId)
         if (Settings.dynamicColor)
-            DynamicColors.applyIfAvailable(this)
+            DynamicColors.applyToActivityIfAvailable(this)
         super.onCreate(savedInstanceState)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)

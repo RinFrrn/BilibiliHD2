@@ -40,7 +40,10 @@
         <item name="filterChip">@style/Widget.Material3.Chip.Filter.Elevated</item>
     </style>
 
-    <style name="Theme.BilibiliHD2.Starting" parent="Theme.SplashScreen" >
+    <style name="Theme.BilibiliHD2.Starting" parent="Theme.AppCompat.Light.DarkActionBar" >
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground_bilipink</item>
     </style>
+<!--    <style name="Theme.BilibiliHD2.Starting" parent="Theme.SplashScreen" >-->
+<!--        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground_bilipink</item>-->
+<!--    </style>-->
 </resources>

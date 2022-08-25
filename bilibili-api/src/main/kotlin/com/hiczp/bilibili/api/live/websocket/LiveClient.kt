@@ -144,7 +144,6 @@ class LiveClient(
                                         this@LiveClient,
                                         jsonParser.parse(it.content.decodeString()).obj
                                 )
-                                else -> Unit
                             }
                         } catch (e: Exception) {
                             logger.error(e)

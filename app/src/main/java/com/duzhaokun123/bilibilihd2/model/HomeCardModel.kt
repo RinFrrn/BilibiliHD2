@@ -1,5 +1,7 @@
 package com.duzhaokun123.bilibilihd2.model
 
+import androidx.databinding.BindingAdapter
+import com.facebook.drawee.view.SimpleDraweeView
 import com.hiczp.bilibili.api.app.model.HomePage
 
 data class HomeCardModel(
@@ -19,6 +21,7 @@ data class HomeCardModel(
 
         fun parse(homePage: HomePage): List<HomeCardModel> {
             val modes = mutableListOf<HomeCardModel>()
+
             homePage.data.items.forEach { item ->
                 var title: String? = "不支持的类型 ${item.cardType}"
                 var desc: String? = ""
@@ -66,7 +69,6 @@ data class HomeCardModel(
                         coverLeftText3 = item.coverLeftText3
                         badge = "专栏"
                         isAd = false
-
                     }
                 }
 
@@ -79,5 +81,15 @@ data class HomeCardModel(
             }
             return modes
         }
+    }
+}
+
+
+@BindingAdapter("imageUrl")
+fun loadImage(view: SimpleDraweeView, imageUrl: String?) {
+    if (imageUrl == null) {
+
+    } else {
+        view.setImageURI(imageUrl)
     }
 }

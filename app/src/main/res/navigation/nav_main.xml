@@ -4,6 +4,10 @@
     android:id="@+id/nav_main"
     app:startDestination="@id/homeFragment">
 
+<!--    <fragment-->
+<!--        android:id="@+id/homeFragment"-->
+<!--        android:name="com.duzhaokun123.bilibilihd2.listtest.Main2Activity"-->
+<!--        android:label="@string/home" />-->
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.duzhaokun123.bilibilihd2.ui.main.HomeFragment"

@@ -10,6 +10,7 @@ import androidx.fragment.app.createViewModelLazy
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.utils.dpToPx
@@ -31,7 +32,8 @@ abstract class BaseSimpleCardListSRRVFragment<ItemBinding : ViewDataBinding, Ite
         val itemModel = MutableLiveData<List<ItemModel>>(emptyList())
     }
 
-    val baseModel by createViewModelLazy(modelClass, { requireActivity().viewModelStore })
+    val baseModel by createViewModelLazy(modelClass, { requireActivity().viewModelStore },
+        { requireActivity().defaultViewModelProviderFactory })
     var items
         get() = baseModel.itemModel.value!!
         set(value) {
@@ -47,7 +49,8 @@ abstract class BaseSimpleCardListSRRVFragment<ItemBinding : ViewDataBinding, Ite
                 else {
                     items = n
                     srl.finishRefresh()
-                    adapter = adapter
+                    adapter!!.notifyDataSetChanged()
+//                    adapter = adapter
                 }
             }
         }
@@ -79,13 +82,19 @@ abstract class BaseSimpleCardListSRRVFragment<ItemBinding : ViewDataBinding, Ite
         baseBinding.rv.addOnLayoutChangeListener { v, _, _, _, _, _, _, _, _ ->
             var a = (v.width - hopeCardWidth) / 2
             if (a < 0) a = 0
-            if (a * 2 <= hopeCardWidth / 3) a = 0
+//            if (a * 2 <= hopeCardWidth / 3) a = 0
             v.updatePadding(left = a, right = a)
         }
         runCatching { baseBinding.rv.removeItemDecorationAt(0) }
         baseBinding.rv.addItemDecoration(
-            GridDividerDecoration(1.dpToPx(), dividerColor ?: ColorUtils.setAlphaComponent(requireContext().theme.getAttr(
-                R.attr.colorOnSurface).data, (255 * 0.12).toInt()), 1), 0)
+            GridDividerDecoration(
+                1.dpToPx(), dividerColor ?: ColorUtils.setAlphaComponent(
+                    requireContext().theme.getAttr(
+                        R.attr.colorOnSurface
+                    ).data, (255 * 0.12).toInt()
+                ), 1
+            ), 0
+        )
     }
 
     @CallSuper

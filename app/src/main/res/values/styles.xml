@@ -7,4 +7,20 @@
         <item name="cornerSizeTopRight">50%</item>
         <item name="cornerSizeBottomRight">50%</item>
     </style>
+
+    <style name="Widget.App.Chip.Detail" parent="Widget.Material3.Chip.Assist">
+        <item name="textStartPadding">2dp</item>
+        <item name="textEndPadding">0dp</item>
+        <item name="chipStartPadding">0dp</item>
+        <item name="chipEndPadding">0dp</item>
+        <item name="chipIconSize">15dp</item>
+        <item name="chipIconTint">@color/secondaryTextColor</item>
+        <item name="chipMinHeight">16dp</item>
+        <item name="chipStrokeWidth">0dp</item>
+        <item name="rippleColor">#00000000</item>
+        <item name="ensureMinTouchTargetSize">false</item>
+        <item name="chipIconVisible">false</item>
+    </style>
+
+
 </resources>

@@ -5,11 +5,14 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.view.LayoutInflater
+import android.view.View
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.bases.BaseSimpleAdapter
@@ -17,9 +20,13 @@ import com.duzhaokun123.bilibilihd2.databinding.DialogEmotePickerBinding
 import com.duzhaokun123.bilibilihd2.databinding.ItemEmoteBinding
 import com.duzhaokun123.bilibilihd2.databinding.LayoutRecycleViewBinding
 import com.duzhaokun123.bilibilihd2.utils.EmoteMap
+import com.duzhaokun123.bilibilihd2.utils.dpToPx
+import com.duzhaokun123.bilibilihd2.utils.runMain
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayoutMediator
 import io.github.duzhaokun123.androidapptemplate.bases.BaseFragment
+import java.lang.Integer.min
+import kotlin.math.ceil
 
 class EmotePickerDialogBuilder(activity: FragmentActivity) : MaterialAlertDialogBuilder(activity) {
     private val dialogEmotePickerBinding by lazy {
@@ -34,7 +41,10 @@ class EmotePickerDialogBuilder(activity: FragmentActivity) : MaterialAlertDialog
         setTitle("选择表情")
         setView(dialogEmotePickerBinding.root)
         dialogEmotePickerBinding.vp.adapter = PageAdapter(activity)
-        TabLayoutMediator(dialogEmotePickerBinding.tl, dialogEmotePickerBinding.vp) { tab, position ->
+        TabLayoutMediator(
+            dialogEmotePickerBinding.tl,
+            dialogEmotePickerBinding.vp
+        ) { tab, position ->
             tab.text = groups[position]
         }.attach()
         setOnDismissListener {
@@ -54,11 +64,13 @@ class EmotePickerDialogBuilder(activity: FragmentActivity) : MaterialAlertDialog
                 }
             }
         }
-        LocalBroadcastManager.getInstance(context).registerReceiver(broadcastReceiver!!, IntentFilter("emote_selected"))
+        LocalBroadcastManager.getInstance(context)
+            .registerReceiver(broadcastReceiver!!, IntentFilter("emote_selected"))
         return d
     }
 
-    inner class PageAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {
+    inner class PageAdapter(fragmentActivity: FragmentActivity) :
+        FragmentStateAdapter(fragmentActivity) {
         override fun getItemCount() = groups.size
 
         override fun createFragment(position: Int): Fragment {
@@ -66,25 +78,54 @@ class EmotePickerDialogBuilder(activity: FragmentActivity) : MaterialAlertDialog
         }
     }
 
-    class EmoteListFragment @JvmOverloads constructor(private val name: String = ""): BaseFragment<LayoutRecycleViewBinding>(R.layout.layout_recycle_view) {
+    class EmoteListFragment @JvmOverloads constructor(private val name: String = "") :
+        BaseFragment<LayoutRecycleViewBinding>(R.layout.layout_recycle_view) {
         override fun initViews() {
             baseBinding.rv.layoutManager = GridLayoutManager(context, 5)
             baseBinding.rv.adapter = EmoteListAdapter(requireContext(), name)
+
+//            baseBinding.rv.addOnLayoutChangeListener { view, _, _, _, _, _, _, _, _ ->
+//                val recyclerView = view as RecyclerView
+//                val gridLayoutManager = recyclerView.layoutManager as GridLayoutManager
+//                gridLayoutManager.spanCount = min(7, this@EmoteListFragment.getColumnCount(recyclerView))
+//            }
         }
+
+//        /**
+//         * Returns grid spanCount
+//         * Called on onLayoutChangeListener
+//         * Default is reactiveColumn
+//         */
+//        fun getColumnCount(view: View): Int {
+//            return reactiveColumn(view)
+//        }
+//
+//        fun reactiveColumn(view: View): Int {
+//            // set card max width with 40dp
+//            val cardMaxWidth = 64f.dpToPx()
+//            return ceil(view.width.toDouble() / cardMaxWidth).toInt()
+//        }
     }
 
-    class EmoteListAdapter(context: Context, name: String): BaseSimpleAdapter<ItemEmoteBinding>(context, R.layout.item_emote) {
+    class EmoteListAdapter(context: Context, name: String) :
+        BaseSimpleAdapter<ItemEmoteBinding>(context, R.layout.item_emote) {
         private val emoteList = EmoteMap.getGroup(name)?.toList() ?: listOf()
 
         override fun initViews(baseBinding: ItemEmoteBinding, position: Int) {
             baseBinding.ll.setOnClickListener {
-                LocalBroadcastManager.getInstance(context).sendBroadcast(Intent("emote_selected").putExtra("emote", emoteList[position].first))
+                LocalBroadcastManager.getInstance(context).sendBroadcast(
+                    Intent("emote_selected").putExtra(
+                        "emote",
+                        emoteList[position].first
+                    )
+                )
             }
         }
 
         override fun initData(baseBinding: ItemEmoteBinding, position: Int) {
             baseBinding.tvEmote.text = emoteList[position].first
-            baseBinding.ivEmote.setImageUrl(emoteList[position].second)
+            baseBinding.ivEmote.setImageURI(emoteList[position].second)
+//            baseBinding.ivEmote.setImageUrl(emoteList[position].second)
         }
 
         override fun getItemCount() = emoteList.size

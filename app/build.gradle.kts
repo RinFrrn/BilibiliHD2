@@ -7,8 +7,8 @@ val localProperties = gradleLocalProperties(rootDir)
 plugins {
     id("com.android.application")
     kotlin("android")
+    kotlin("kapt")
     id("kotlin-android")
-    id("com.google.devtools.ksp") version "1.7.10-1.0.6"
 }
 
 android {
@@ -61,10 +61,6 @@ android {
             storePassword = System.getenv("REL_KEY")
             keyAlias = "key0"
             keyPassword = System.getenv("REL_KEY")
-            enableV1Signing = true
-            enableV2Signing = true
-            enableV3Signing = true
-            enableV4Signing = true
         }
     }
     buildTypes {
@@ -80,7 +76,6 @@ android {
             } else {
                 signingConfigs.getByName("debug")
             }
-            sourceSets.getByName("main").java.srcDir(File("build/generated/ksp/release/kotlin"))
         }
         getByName("debug") {
             val minifyEnabled = localProperties.getProperty("minify.enabled", "false")
@@ -90,7 +85,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            sourceSets.getByName("main").java.srcDir(File("build/generated/ksp/debug/kotlin"))
+
         }
     }
     compileOptions {
@@ -99,9 +94,6 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
-//        freeCompilerArgs = listOf(
-//            "-Xuse-k2"
-//        )
     }
     buildFeatures {
         dataBinding = true
@@ -113,10 +105,10 @@ android {
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.8.0")
-    implementation("androidx.appcompat:appcompat:1.4.2")
-    implementation("com.google.android.material:material:1.6.1")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("androidx.core:core-ktx:$androidx_core_ktx_version")
+    implementation("androidx.appcompat:appcompat:$androidx_appcompat_version")
+    implementation("com.google.android.material:material:$material_version")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.3")
 //    testImplementation("junit:junit:4.13.2")
 //    androidTestImplementation("androidx.test.ext:junit:1.1.3")
 //    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
@@ -129,16 +121,20 @@ dependencies {
     implementation("com.takisoft.preferencex:preferencex:1.1.0")
     implementation("com.takisoft.preferencex:preferencex-simplemenu:1.1.0")
 
+    // kot
+    implementation("androidx.core:core-ktx:1.7.0")
+
     //kotlinx-coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.4")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1")
+    implementation("androidx.recyclerview:recyclerview:1.2.1")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
     //AnnotationProcessor
+    kapt(project(":annotation-processor"))
     compileOnly(project(":annotation-processor"))
-    ksp(project(":annotation-processor"))
 
     //lifecycle
-    val lifecycleVersion = "2.5.0"
+    val lifecycleVersion = "2.3.0"
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion")
@@ -147,13 +143,20 @@ dependencies {
     implementation("com.google.code.gson:gson:2.9.0")
     implementation("com.github.salomonbrys.kotson:kotson:2.5.0")
 
+    //glide
+    implementation("com.github.bumptech.glide:glide:4.12.0")
+    kapt("com.github.bumptech.glide:compiler:4.12.0")
+
     //nav
-    val navVersion = "2.5.0"
+    val navVersion = "2.4.0-alpha01"
     implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
     implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
     implementation("androidx.drawerlayout:drawerlayout:1.1.1")
 
-    //SmartRefreshLayout
+    //dataBinding
+    kapt("com.android.databinding:compiler:3.2.0-alpha10")
+
+    //SmartRefreshLayout(not use)
     val srlVersion = "2.0.5"
     implementation("io.github.scwang90:refresh-layout-kernel:$srlVersion")
     implementation("io.github.scwang90:refresh-header-material:$srlVersion")
@@ -165,6 +168,9 @@ dependencies {
     //StfalconImageViewer
     implementation(project(":imageviewer"))
 
+    //BiliPlayer
+    implementation(project(":bili-player"))
+
     //grpc
     implementation(project(":grpc"))
 
@@ -172,7 +178,7 @@ dependencies {
     implementation("com.journeyapps:zxing-android-embedded:4.3.0")
 
     //appcenter
-    val appCenterSdkVersion = "4.4.5"
+    val appCenterSdkVersion = "4.3.1"
     implementation("com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}")
     implementation("com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}")
 
@@ -181,14 +187,16 @@ dependencies {
     //core-splashscreen
     implementation("androidx.core:core-splashscreen:1.0.0-rc01")
 
-    //picasso
+    //picasso(not use)
     implementation("com.squareup.picasso:picasso:2.71828")
 
-    //player
-    val exoplayerVersion = "2.18.1"
-    implementation("com.google.android.exoplayer:exoplayer-core:$exoplayerVersion")
-    implementation("com.google.android.exoplayer:exoplayer-ui:$exoplayerVersion")
-    implementation("com.github.duzhaokun123:DanmakuView:ed76ba7ad5")
+
+    //水平排列方式：先从左到右，再从上到下。最新版本。
+    //Horizontal arrangement: from left to right, then from top to bottom. Latest version.
+//    implementation("com.github.shenbengit:PagerGridLayoutManager:1.1.7")
+
+    // BGARefreshLayout
+//    implementation("com.github.bingoogolapple:BGARefreshLayout-Android:2.0.1")
 }
 
 val optimizeReleaseRes = task("optimizeReleaseRes").doLast {

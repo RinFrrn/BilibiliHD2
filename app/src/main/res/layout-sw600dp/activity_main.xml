@@ -2,25 +2,113 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
+
+    <!--    <LinearLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:orientation="horizontal">-->
+
+    <!--        <com.google.android.material.navigationrail.NavigationRailView-->
+    <!--            android:id="@+id/nrv"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            app:menu="@menu/nav_main" />-->
+
+    <!--        <androidx.fragment.app.FragmentContainerView-->
+    <!--            android:id="@+id/fcv"-->
+    <!--            android:name="androidx.navigation.fragment.NavHostFragment"-->
+    <!--            android:layout_width="0dp"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:layout_weight="1"-->
+    <!--            app:defaultNavHost="true"-->
+    <!--            app:navGraph="@navigation/nav_main" />-->
+    <!--    </LinearLayout>-->
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
+
+        <!--        <com.google.android.material.navigationrail.NavigationRailView-->
+        <!--            android:id="@+id/nrv"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:paddingTop="64dp"-->
+        <!--            app:elevation="1dp"-->
+        <!--            app:labelVisibilityMode="unlabeled"-->
+        <!--            app:menu="@menu/nav_main"-->
+        <!--            app:menuGravity="top" />-->
+
+        <!--        <androidx.coordinatorlayout.widget.CoordinatorLayout-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:layout_toEndOf="@id/nrv"-->
+        <!--            android:orientation="vertical">-->
+
+        <!--            <com.google.android.material.appbar.AppBarLayout-->
+        <!--                android:id="@+id/abl"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content">-->
+
+        <!--                <com.google.android.material.appbar.CollapsingToolbarLayout-->
+        <!--                    android:layout_width="match_parent"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    app:layout_scrollFlags="scroll|exitUntilCollapsed">-->
+
+        <!--                    <androidx.appcompat.widget.Toolbar-->
+        <!--                        android:id="@+id/tb"-->
+        <!--                        android:layout_width="match_parent"-->
+        <!--                        android:layout_height="wrap_content"-->
+        <!--                        app:layout_collapseMode="pin" />-->
+        <!--                </com.google.android.material.appbar.CollapsingToolbarLayout>-->
+        <!--            </com.google.android.material.appbar.AppBarLayout>-->
+
+        <!--            <androidx.fragment.app.FragmentContainerView-->
+        <!--                android:id="@+id/fcv"-->
+        <!--                android:name="androidx.navigation.fragment.NavHostFragment"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="match_parent"-->
+        <!--                android:layout_below="@id/abl"-->
+        <!--                app:defaultNavHost="true"-->
+        <!--                app:navGraph="@navigation/nav_main" />-->
+        <!--        </androidx.coordinatorlayout.widget.CoordinatorLayout>-->
 
         <com.google.android.material.navigationrail.NavigationRailView
             android:id="@+id/nrv"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            app:menu="@menu/nav_main" />
+            android:paddingTop="64dp"
+            app:labelVisibilityMode="unlabeled"
+            app:menu="@menu/nav_main"
+            app:menuGravity="top" />
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fcv"
-            android:name="androidx.navigation.fragment.NavHostFragment"
-            android:layout_width="0dp"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            app:defaultNavHost="true"
-            app:navGraph="@navigation/nav_main" />
-    </LinearLayout>
+            android:layout_toEndOf="@id/nrv"
+            android:orientation="vertical">
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/abl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/tb"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fcv"
+                android:name="androidx.navigation.fragment.NavHostFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/abl"
+                app:defaultNavHost="true"
+                app:navGraph="@navigation/nav_main" />
+        </RelativeLayout>
+
+    </RelativeLayout>
 
 </layout>

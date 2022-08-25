@@ -25,13 +25,13 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.duzhaokun123.annotationProcessor.IntentFilter
 import com.duzhaokun123.bilibilihd2.CLIENT_USER_AGENT
 import com.duzhaokun123.bilibilihd2.DESKTOP_USER_AGENT
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.TABLETS_USER_AGENT
 import com.duzhaokun123.bilibilihd2.databinding.LayoutWebViewBinding
 import com.duzhaokun123.bilibilihd2.utils.*
-import io.github.duzhaokun123.IntentFilter
 import io.github.duzhaokun123.androidapptemplate.bases.BaseActivity
 import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 import kotlinx.coroutines.delay
@@ -74,7 +74,7 @@ class WebViewActivity : BaseActivity<LayoutWebViewBinding>(R.layout.layout_web_v
         }
 
         @IntentFilter
-        class ArticleIntentFilter: UrlOpenActivity.IIntentFilter {
+        class ArticleIntentFilter : UrlOpenActivity.IIntentFilter {
             override fun handle(
                 parsedIntent: UrlOpenActivity.ParsedIntent,
                 context: Context
@@ -86,10 +86,15 @@ class WebViewActivity : BaseActivity<LayoutWebViewBinding>(R.layout.layout_web_v
                             "https://www.bilibili.com/read/mobile?id=${parsedIntent.paths[0]}".toUri()
                         ) to "专栏 ${parsedIntent.paths[0]}"
                     }
-                    parsedIntent.paths.getOrNull(0) == "read" && parsedIntent.paths.getOrNull(1)?.startsWith("cv") == true -> {
+                    parsedIntent.paths.getOrNull(0) == "read" && parsedIntent.paths.getOrNull(1)
+                        ?.startsWith("cv") == true -> {
                         newIntent(
                             context,
-                            "https://www.bilibili.com/read/mobile?id=${parsedIntent.paths[1].substring(2)}".toUri()
+                            "https://www.bilibili.com/read/mobile?id=${
+                                parsedIntent.paths[1].substring(
+                                    2
+                                )
+                            }".toUri()
                         ) to "专栏 ${parsedIntent.paths[1].substring(2)}"
                     }
                     else -> null to null
@@ -98,7 +103,7 @@ class WebViewActivity : BaseActivity<LayoutWebViewBinding>(R.layout.layout_web_v
         }
 
         @IntentFilter
-        class UrlIntentFilter: UrlOpenActivity.IIntentFilter {
+        class UrlIntentFilter : UrlOpenActivity.IIntentFilter {
             override fun handle(
                 parsedIntent: UrlOpenActivity.ParsedIntent,
                 context: Context
@@ -114,7 +119,11 @@ class WebViewActivity : BaseActivity<LayoutWebViewBinding>(R.layout.layout_web_v
                         newIntent(context, parsedIntent.uri, ua = ua) to "内置浏览器 ua: ${ua.n}"
                     }
                     parsedIntent.host == "browser" -> {
-                        newIntent(context, "${parsedIntent.queryMap["url"]}".toUri(), ua = UA.CLIENT) to "内置浏览器 ua: ${UA.CLIENT.n}"
+                        newIntent(
+                            context,
+                            "${parsedIntent.queryMap["url"]}".toUri(),
+                            ua = UA.CLIENT
+                        ) to "内置浏览器 ua: ${UA.CLIENT.n}"
                     }
                     else -> null to null
                 }
@@ -122,13 +131,19 @@ class WebViewActivity : BaseActivity<LayoutWebViewBinding>(R.layout.layout_web_v
         }
 
         @IntentFilter
-        class B23tvIntentFilter: UrlOpenActivity.IIntentFilter {
+        class B23tvIntentFilter : UrlOpenActivity.IIntentFilter {
             override fun handle(
                 parsedIntent: UrlOpenActivity.ParsedIntent,
                 context: Context
             ): Pair<Intent?, String?> {
                 return if (parsedIntent.host == "b23.tv")
-                    newIntent(context, parsedIntent.uri, ua = UA.CLIENT, interceptAll = true, finishWhenIntercept = true) to "内置浏览器 ua: ${UA.CLIENT.n}"
+                    newIntent(
+                        context,
+                        parsedIntent.uri,
+                        ua = UA.CLIENT,
+                        interceptAll = true,
+                        finishWhenIntercept = true
+                    ) to "内置浏览器 ua: ${UA.CLIENT.n}"
                 else null to null
             }
         }
@@ -136,7 +151,7 @@ class WebViewActivity : BaseActivity<LayoutWebViewBinding>(R.layout.layout_web_v
 
     private val configViewModel: ConfigViewModel by viewModels()
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.web_view_activity, menu)
         menu?.findItem(configViewModel.ua.value!!.id)?.isChecked = true
         menu?.findItem(R.id.intercept_all)
@@ -202,7 +217,8 @@ class WebViewActivity : BaseActivity<LayoutWebViewBinding>(R.layout.layout_web_v
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (isFirstCreate) {
-            configViewModel.ua.value = startIntent.getSerializableExtra(EXTRA_UA) as? UA ?: UA.DESKTOP
+            configViewModel.ua.value =
+                startIntent.getSerializableExtra(EXTRA_UA) as? UA ?: UA.DESKTOP
             configViewModel.interceptAll.value =
                 startIntent.getBooleanExtra(EXTRA_INTERCEPT_ALL, false)
             configViewModel.finishWhenIntercept.value = startIntent.getBooleanExtra(
@@ -304,9 +320,19 @@ class WebViewActivity : BaseActivity<LayoutWebViewBinding>(R.layout.layout_web_v
         }
     }
 
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        // 画中画模式时不触发，否则进入画中画、改变画中画大小均会触发
+        if (!isInPictureInPictureMode) {
+            initViews()
+            initData()
+        }
+
+        super.onConfigurationChanged(newConfig)
+    }
+
     override fun onPictureInPictureModeChanged(
         isInPictureInPictureMode: Boolean,
-        newConfig: Configuration
+        newConfig: Configuration?
     ) {
         super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
         if (isInPictureInPictureMode) {

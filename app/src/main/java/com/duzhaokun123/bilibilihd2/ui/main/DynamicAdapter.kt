@@ -9,6 +9,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.duzhaokun123.bilibilihd2.R
+import com.duzhaokun123.bilibilihd2.bases.BaseSimpleAdapter
 import com.duzhaokun123.bilibilihd2.databinding.DynamicCardRootBinding
 import com.duzhaokun123.bilibilihd2.model.DynamicCardModel
 import com.duzhaokun123.bilibilihd2.model.TYPE_ERROR
@@ -20,6 +21,8 @@ import com.google.android.material.color.MaterialColors
 class DynamicAdapter(private val dynamicFragment: DynamicFragment) :
     RecyclerView.Adapter<DynamicAdapter.BaseDynamicHolder<out ViewDataBinding, out Any>>() {
     companion object {
+        var count = 0
+
         /**
          * 在这里注册的必须实现`(Context)`构造器
          */
@@ -47,9 +50,13 @@ class DynamicAdapter(private val dynamicFragment: DynamicFragment) :
         parent: ViewGroup,
         viewType: Int
     ): BaseDynamicHolder<out ViewDataBinding, out Any> {
+
+        System.out.println("---- onCreateViewHolder Dynamic count: " + DynamicAdapter.count++)
+
         return supportedTypes.getOrElse(
             viewType
-        ) { DynamicHolderType0::class.java }.getConstructor(Context::class.java).newInstance(context)
+        ) { DynamicHolderType0::class.java }.getConstructor(Context::class.java)
+            .newInstance(context)
     }
 
     override fun onBindViewHolder(
@@ -83,7 +90,12 @@ class DynamicAdapter(private val dynamicFragment: DynamicFragment) :
             val typedCard = model.card as TypedCard
             rootBinding.cv.setOnClickListener { onCardClick(model, typedCard) }
             if (model.user.isVip)
-                rootBinding.tvName.setTextColor(MaterialColors.harmonizeWithPrimary(context, context.getColorCompat(R.color.biliPink)))
+                rootBinding.tvName.setTextColor(
+                    MaterialColors.harmonizeWithPrimary(
+                        context,
+                        context.getColorCompat(R.color.biliPink)
+                    )
+                )
             initView(contentBinding, model, typedCard)
             initData(contentBinding, model, typedCard)
         }

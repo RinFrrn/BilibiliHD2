@@ -5,19 +5,28 @@
 
     <LinearLayout
         android:id="@+id/ll"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:foreground="?selectableItemBackground"
         android:gravity="center_horizontal"
         android:orientation="vertical"
+        android:paddingTop="6dp"
+        android:paddingBottom="8dp"
         tools:targetApi="m">
 
-        <com.duzhaokun123.bilibilihd2.ui.widget.GlideLoadRationHeightImageView
+        <!--        <com.duzhaokun123.bilibilihd2.ui.widget.GlideLoadRationHeightImageView-->
+        <!--            android:id="@+id/iv_emote"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            app:ration="1.0"-->
+        <!--            tools:src="@tools:sample/avatars" />-->
+
+        <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/iv_emote"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:ration="1.0"
-            tools:src="@tools:sample/avatars" />
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            app:actualImageScaleType="fitCenter"
+            app:viewAspectRatio="1" />
 
         <TextView
             android:id="@+id/tv_emote"
@@ -25,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:gravity="center"
-            android:textAppearance="?attr/textAppearanceBodySmall"
+            android:textAppearance="?attr/textAppearanceLabelMedium"
             tools:text="aaaaa" />
     </LinearLayout>
 </layout>

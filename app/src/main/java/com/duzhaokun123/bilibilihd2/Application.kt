@@ -3,6 +3,8 @@ package com.duzhaokun123.bilibilihd2
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import com.duzhaokun123.bilibilihd2.utils.*
+import com.duzhaokun123.generated.Settings
+import com.facebook.drawee.backends.pipeline.Fresco
 import com.google.android.exoplayer2.database.ExoDatabaseProvider
 import com.google.android.exoplayer2.upstream.cache.NoOpCacheEvictor
 import com.google.android.exoplayer2.upstream.cache.SimpleCache
@@ -19,7 +21,6 @@ import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 import io.github.duzhaokun123.androidapptemplate.utils.launch
 import io.github.duzhaokun123.androidapptemplate.utils.onSuccess
 import io.github.duzhaokun123.androidapptemplate.utils.runIOCatching
-import io.github.duzhaokun123.codegen.Settings
 
 
 @Suppress("UNUSED")
@@ -43,6 +44,7 @@ class Application : android.app.Application() {
     override fun onCreate() {
         super.onCreate()
 
+        Fresco.initialize(this)
         //init
         Settings.init(this)
         if (Settings.allowAnalytics) {
@@ -58,20 +60,8 @@ class Application : android.app.Application() {
                     override fun getErrorAttachments(report: ErrorReport): Iterable<ErrorAttachmentLog> {
                         val process = Runtime.getRuntime().exec("logcat -d")
                         val processOutput = process.inputStream.bufferedReader().readText()
-                        val re = mutableListOf(
-                            ErrorAttachmentLog.attachmentWithBinary(
-                                processOutput.toByteArray(),
-                                "logcat.txt",
-                                "text/plain"
-                            )
-                        )
-                        re.add(
-                            ErrorAttachmentLog.attachmentWithBinary(
-                                report.stackTrace.toByteArray(),
-                                "stacktrace.txt",
-                                "text/plain"
-                            )
-                        )
+                        val re = mutableListOf(ErrorAttachmentLog.attachmentWithBinary(processOutput.toByteArray(), "logcat.txt", "text/plain"))
+                        re.add(ErrorAttachmentLog.attachmentWithBinary(report.stackTrace.toByteArray(), "stacktrace.txt", "text/plain"))
                         return re
                     }
 
@@ -81,12 +71,7 @@ class Application : android.app.Application() {
 
                     override fun onSendingSucceeded(report: ErrorReport) {}
                 })
-                AppCenter.start(
-                    this,
-                    BuildConfig.APP_SECRET,
-                    Analytics::class.java,
-                    Crashes::class.java
-                )
+                AppCenter.start(this, BuildConfig.APP_SECRET, Analytics::class.java, Crashes::class.java)
             }
         }
         UsersMap.reload()

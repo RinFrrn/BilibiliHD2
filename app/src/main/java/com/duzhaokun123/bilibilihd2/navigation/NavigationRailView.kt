@@ -5,16 +5,8 @@ import androidx.core.view.forEach
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.ui.NavigationUI
-import com.duzhaokun123.bilibilihd2.utils.isStatic
-import com.duzhaokun123.bilibilihd2.utils.parameterCountCompat
 import com.google.android.material.navigationrail.NavigationRailView
 import java.lang.ref.WeakReference
-
-val NavigationUI_matchDestination by lazy {
-    NavigationUI::class.java.declaredMethods.find {
-        it.isStatic && it.returnType == java.lang.Boolean.TYPE && it.parameterCountCompat == 2 && it.parameterTypes[0] == NavDestination::class.java && it.parameterTypes[1] == Integer.TYPE
-    }!!
-}
 
 /**
  * Sets up a [NavigationRailView] for use with a [NavController].
@@ -25,9 +17,27 @@ val NavigationUI_matchDestination by lazy {
 fun NavigationRailView.setupWithNavController(
     navController: NavController
 ) {
+//    navigationView.setNavigationItemSelectedListener { item ->
+//        val handled = NavigationUI.onNavDestinationSelected(item, navController)
+//        if (handled) {
+//            val parent = this.parent
+//            if (parent is Openable) {
+//                parent.close()
+//            } else {
+//                val bottomSheetBehavior = NavigationUI.findBottomSheetBehavior(navigationView)
+//                if (bottomSheetBehavior != null) {
+//                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+//                }
+//            }
+//        }
+//        handled
+//    }
+
     this.setOnItemSelectedListener { item ->
+        // FIXME: java.util.ConcurrentModificationException
         NavigationUI.onNavDestinationSelected(item, navController)
     }
+
     val weakReference = WeakReference(this)
     navController.addOnDestinationChangedListener(
         object : NavController.OnDestinationChangedListener {
@@ -42,7 +52,7 @@ fun NavigationRailView.setupWithNavController(
                     return
                 }
                 view.menu.forEach { item ->
-                    if (NavigationUI_matchDestination(null, destination, item.itemId) as Boolean) {
+                    if (NavigationUI.matchDestination(destination, item.itemId)) {
                         item.isChecked = true
                     }
                 }

@@ -16,44 +16,102 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorSurface"
         android:foreground="?attr/selectableItemBackground"
-        android:padding="8dp"
+        android:paddingHorizontal="4dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="6dp"
         tools:targetApi="m">
 
-        <com.duzhaokun123.bilibilihd2.ui.widget.GlideLoadRationHeightImageView
-            android:id="@+id/iv_cover"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            app:imageUrl="@{relate.cover}"
-            app:ration="0.625" />
 
-        <LinearLayout
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/iv_cover"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_toEndOf="@id/iv_cover"
+            app:actualImageScaleType="centerCrop"
+            app:imageUrl="@{relate.cover}"
+            app:placeholderImage="@color/image_background"
+            app:roundedCornerRadius="6dp"
+            app:viewAspectRatio="1.6" />
+
+        <LinearLayout
+            android:id="@+id/ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/iv_cover"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="4dp"
+            android:layout_toStartOf="@id/ib_tp"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:lineSpacingExtra="-3sp"
+                android:lineSpacingMultiplier="1.0"
+                android:maxLines="2"
                 android:text="@{relate.title}"
-                android:textAppearance="?attr/textAppearanceTitleMedium" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textSize="15sp"
+                tools:text="TITLE\nTITLE" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="2dp"
                 android:text="@{relate.l1}"
-                android:textAppearance="?attr/textAppearanceBodyMedium"
-                android:textColor="?android:attr/textColorSecondary" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/secondaryTextColor"
+                android:textSize="14sp"
+                tools:text="DESC" />
+
+            <!--            <TextView-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="1dp"-->
+            <!--                android:text='@{relate.l2}'-->
+            <!--                android:textAppearance="@style/TextAppearance.AppCompat.Medium"-->
+            <!--                android:textColor="?android:attr/textColorSecondary"-->
+            <!--                android:textSize="14sp"-->
+            <!--                tools:text="PLAY_DANMU" />-->
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@id/iv_cover"
+            android:layout_alignBottom="@id/iv_cover"
+            android:background="@drawable/black_transparent_background"
+            android:orientation="horizontal"
+            android:paddingStart="6dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="4dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text='@{relate.l2}'
-                android:textAppearance="?attr/textAppearanceBodyMedium"
-                android:textColor="?android:attr/textColorSecondary" />
+                android:layout_marginEnd="6dp"
+                android:drawablePadding="2dp"
+                android:gravity="center_vertical"
+                android:text="@{relate.l2}"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"
+                android:visibility="@{relate.l2.isEmpty() ? android.view.View.GONE : android.view.View.VISIBLE}"
+                app:drawableStartCompat="@drawable/ic_play"
+                app:drawableTint="@color/white"
+                tools:text="999" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="2dp"
+                android:gravity="center_vertical"
+                android:text="@{relate.l3}"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"
+                android:visibility="@{relate.l3.isEmpty() ? android.view.View.GONE : android.view.View.VISIBLE}"
+                app:drawableStartCompat="@drawable/ic_danmaku"
+                app:drawableTint="@color/white"
+                tools:text="999" />
         </LinearLayout>
 
         <TextView
@@ -61,22 +119,24 @@
             android:layout_height="wrap_content"
             android:layout_alignEnd="@id/iv_cover"
             android:layout_alignBottom="@id/iv_cover"
+            android:layout_marginHorizontal="6dp"
+            android:layout_marginVertical="4dp"
             android:background="@drawable/bg_text"
+            android:paddingHorizontal="4dp"
+            android:paddingVertical="1dp"
             android:text="@{relate.duration}"
             android:textColor="@android:color/white"
             android:textSize="12sp"
+            android:visibility="@{relate.duration.isEmpty() ? android.view.View.GONE : android.view.View.VISIBLE}"
             tools:text="10:12" />
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/ib_tp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/iv_cover"
+            android:layout_alignTop="@id/ll"
             android:layout_alignParentEnd="true"
-            android:layout_marginBottom="4dp"
             android:background="@null"
-            android:scaleX="0.8"
-            android:scaleY="0.8"
             android:src="@drawable/ic_three_points" />
 
     </RelativeLayout>

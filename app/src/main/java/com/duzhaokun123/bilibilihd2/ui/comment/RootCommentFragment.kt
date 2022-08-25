@@ -17,12 +17,12 @@ import com.duzhaokun123.bilibilihd2.model.RootCommentCardModel
 import com.duzhaokun123.bilibilihd2.model.UserModel
 import com.duzhaokun123.bilibilihd2.model.toRootCommentCardModel
 import com.duzhaokun123.bilibilihd2.utils.*
+import com.duzhaokun123.generated.Settings
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 import io.github.duzhaokun123.androidapptemplate.utils.launch
 import io.github.duzhaokun123.androidapptemplate.utils.onSuccess
 import io.github.duzhaokun123.androidapptemplate.utils.runIOCatching
-import io.github.duzhaokun123.codegen.Settings
 
 class RootCommentFragment @JvmOverloads constructor(private val setOid: Long = 0, private val setType: Int = 0) :
     BaseSimpleCardListSRRVFragment<ItemRootCommentBinding, RootCommentCardModel, RootCommentFragment.RootCommentModel>(
@@ -70,23 +70,41 @@ class RootCommentFragment @JvmOverloads constructor(private val setOid: Long = 0
 
     override fun findViews() {
         layoutSendRootCommentBinding = LayoutSendRootCommentBinding.inflate(layoutInflater)
-        baseBinding.rl.addView(layoutSendRootCommentBinding.root, RelativeLayout.LayoutParams(
-            RelativeLayout.LayoutParams.MATCH_PARENT,
-            RelativeLayout.LayoutParams.WRAP_CONTENT
-        ).apply {
-            addRule(RelativeLayout.ALIGN_PARENT_BOTTOM)
-        })
-        baseBinding.srl.updateLayoutParams<RelativeLayout.LayoutParams> {
-            addRule(RelativeLayout.ABOVE, layoutSendRootCommentBinding.root.id)
+
+        // FIXME: MIGRATE TO LINEARLAYOUT
+        if (baseBinding.rl is LinearLayout) {
+            baseBinding.rl.addView(layoutSendRootCommentBinding.root, LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            ))
+
+            baseBinding.rl.addView(
+                FrameLayout(requireContext()).apply { id = cvid },
+                LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                )
+            )
         }
 
-        baseBinding.rl.addView(
-            FrameLayout(requireContext()).apply { id = cvid },
-            RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.MATCH_PARENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT
-            )
-        )
+//        baseBinding.rl.addView(layoutSendRootCommentBinding.root, RelativeLayout.LayoutParams(
+//            RelativeLayout.LayoutParams.MATCH_PARENT,
+//            RelativeLayout.LayoutParams.WRAP_CONTENT
+//        ).apply {
+//            addRule(RelativeLayout.ALIGN_PARENT_BOTTOM)
+//        })
+
+//        baseBinding.srl.updateLayoutParams<RelativeLayout.LayoutParams> {
+//            addRule(RelativeLayout.ABOVE, layoutSendRootCommentBinding.root.id)
+//        }
+
+//        baseBinding.rl.addView(
+//            FrameLayout(requireContext()).apply { id = cvid },
+//            RelativeLayout.LayoutParams(
+//                RelativeLayout.LayoutParams.MATCH_PARENT,
+//                RelativeLayout.LayoutParams.WRAP_CONTENT
+//            )
+//        )
     }
     
     override fun initViews() {
@@ -128,7 +146,7 @@ class RootCommentFragment @JvmOverloads constructor(private val setOid: Long = 0
                     1 -> setMode(Mode.MAIN_LIST_HOT)
                     2 -> setMode(Mode.MAIN_LIST_TIME)
                 }
-                baseBinding.srl.autoRefresh()
+                srl.autoRefresh()
             }
         }
         layoutSendRootCommentBinding.tilComment.setStartIconOnClickListener {
@@ -279,6 +297,6 @@ class RootCommentFragment @JvmOverloads constructor(private val setOid: Long = 0
     }
 
     fun reload() {
-        baseBinding.srl.autoRefresh()
+        srl.autoRefresh()
     }
 }

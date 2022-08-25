@@ -3,4 +3,7 @@
     <color name="image_background">#2A2A2A</color>
     <color name="textColor">#FFFFFF</color>
     <color name="origin_card">#030303</color>
+    <color name="secondaryTextColor">#99EBEBF5</color>
+    <color name="tertiaryTextColor">#4DEBEBF5</color>
+    <color name="quaternaryTextColor">#29EBEBF5</color>
 </resources>

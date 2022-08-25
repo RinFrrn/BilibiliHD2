@@ -9,15 +9,12 @@
 
 [Bilibili HD](https://github.com/duzhaokun123/BilibiliHD) 的重构
 
-## 下载
-[GitHub Actions](https://github.com/duzhaokun123/BilibiliHD2/actions/workflows/android.yaml) (需登陆 GitHub)
-
-蓝奏云
-- 0.1 https://wwe.lanzoui.com/b01ugzj5c 密码:233
-
-## 友情链接
-
-可能 https://github.com/10miaomiao/bilimiao2 更适合使用
+## 更新内容
+- 卡片响应式布局
+- 优化列表性能
+- 视频播放器 Swipe、双击、长按手势（没有UI凑合着用）
+- 全屏/画中画过渡动画（竖屏PiP有问题）
+- 尝试修复了几个崩溃问题
 
 ## 将支持的功能
 
@@ -36,7 +33,7 @@
         - [ ] 精准空降
         - [ ] 屏幕滑动进度控制
         - [ ] 远程播放 (仅在本机通过模拟辅助显示设备测试)
-        - [x] 4K/HDR
+        - [ ] 4K (大会员没试出来)
     - [ ] 弹幕
         - [x] 显示普通弹幕
         - [x] 显示高级弹幕 (可能有部分无法显示)

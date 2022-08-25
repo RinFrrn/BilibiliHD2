@@ -18,26 +18,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.duzhaokun123.bilibilihd2.ui.widget.PlayerView
-            android:id="@+id/pv"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:elevation="1dp"
-            app:layout_constraintBottom_toBottomOf="@id/rhv"
-            app:layout_constraintEnd_toEndOf="@id/rhv"
-            app:layout_constraintStart_toStartOf="@id/rhv"
-            app:layout_constraintTop_toTopOf="@id/rhv"
-            app:played_color="@color/biliPink" />
-
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/abl"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/transparent"
-            android:elevation="2dp"
-            app:layout_constraintEnd_toEndOf="@id/pv"
-            app:layout_constraintStart_toStartOf="@id/pv"
-            app:layout_constraintTop_toTopOf="@id/pv"
+            android:background="@color/exo_black_opacity_70"
+            android:theme="@style/Theme.Material3.Dark"
+            app:layout_constraintEnd_toEndOf="@id/bpv"
+            app:layout_constraintStart_toStartOf="@id/bpv"
+            app:layout_constraintTop_toTopOf="@id/bpv"
             tools:ignore="UnknownId">
 
             <com.google.android.material.appbar.MaterialToolbar
@@ -45,6 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:subtitleTextColor="@color/white"
+                app:titleTextAppearance="?attr/textAppearanceHeadline6"
                 app:titleTextColor="@color/white" />
         </com.google.android.material.appbar.AppBarLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

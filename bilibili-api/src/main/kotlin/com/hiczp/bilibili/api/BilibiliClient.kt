@@ -254,7 +254,12 @@ class BilibiliClient(
     /**
      * Web 直播
      */
-    val webLiveAPI by lazy { createAPILazyjson<WebLiveAPI>(BaseUrl.live, defaultCommonCookieInterceptor) }
+    val webLiveAPI by lazy {
+        createAPILazyjson<WebLiveAPI>(
+            BaseUrl.live,
+            defaultCommonCookieInterceptor
+        )
+    }
 
     /**
      * 登出

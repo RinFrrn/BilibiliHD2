@@ -15,8 +15,8 @@ import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.bases.BaseSRRVFragment
 import com.duzhaokun123.bilibilihd2.model.DynamicCardModel
 import com.duzhaokun123.bilibilihd2.utils.*
+import com.duzhaokun123.generated.Settings
 import com.scwang.smart.refresh.layout.api.RefreshLayout
-import io.github.duzhaokun123.codegen.Settings
 import io.material.catalog.tableofcontents.GridDividerDecoration
 
 class DynamicFragment : BaseSRRVFragment() {
@@ -37,7 +37,8 @@ class DynamicFragment : BaseSRRVFragment() {
             model.offsetDynamicId.value = dynamicNew.data.historyOffset
             model.page.value = 1
             srl.finishRefresh()
-            adapter = adapter
+            adapter!!.notifyDataSetChanged()
+//            adapter = adapter
         }
     }
 
@@ -66,14 +67,27 @@ class DynamicFragment : BaseSRRVFragment() {
     override fun initViews() {
         super.initViews()
         runCatching { baseBinding.rv.removeItemDecorationAt(0) }
-        baseBinding.rv.addItemDecoration(GridDividerDecoration(1.dpToPx(), ColorUtils.setAlphaComponent(requireContext().theme.getAttr(R.attr.colorOnSurface).data, (255 * 0.12).toInt()), 1), 0)
+        baseBinding.rv.addItemDecoration(
+            GridDividerDecoration(
+                1.dpToPx(),
+                ColorUtils.setAlphaComponent(
+                    requireContext().theme.getAttr(R.attr.colorOnSurface).data,
+                    (255 * 0.12).toInt()
+                ),
+                1
+            ), 0
+        )
         baseBinding.rv.addOnLayoutChangeListener { v, _, _, _, _, _, _, _, _ ->
             var a = (v.width - dynamicCardWidth) / 2
             if (a < 0) a = 0
             if (a * 2 <= dynamicCardWidth / 3) a = 0
             v.updatePadding(left = a, right = a)
         }
-        baseBinding.root.setOnTouchListener { _, motionEvent -> baseBinding.srl.onTouchEvent(motionEvent) }
+        baseBinding.root.setOnTouchListener { _, motionEvent ->
+            baseBinding.srl.onTouchEvent(
+                motionEvent
+            )
+        }
     }
 
     override fun initData() {
@@ -84,9 +98,9 @@ class DynamicFragment : BaseSRRVFragment() {
     override fun onApplyWindowInsetsCompat(insets: WindowInsetsCompat) {
         with(insets.maxSystemBarsDisplayCutout) {
             baseBinding.srl.updatePadding(left = left, right = right, bottom = bottom)
-            baseBinding.cf.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                bottomMargin = bottom
-            }
+//            baseBinding.cf.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+//                bottomMargin = bottom
+//            }
         }
     }
 }

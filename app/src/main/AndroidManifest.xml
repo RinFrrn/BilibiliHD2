@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:name=".Application"
@@ -14,9 +15,11 @@
         android:supportsRtl="false"
         android:theme="@style/Theme.BilibiliHD2.Starting"
         tools:targetApi="n">
+
         <activity android:name=".ui.TestActivity" />
         <activity
             android:name=".ui.main.MainActivity"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,7 +30,7 @@
         <activity android:name=".ui.settings.SettingsActivity" />
         <activity
             android:name=".ui.WebViewActivity"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation|uiMode"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
             android:exported="true"
             android:supportsPictureInPicture="true"
             tools:targetApi="n">
@@ -74,12 +77,12 @@
         </activity>
         <activity
             android:name=".ui.play.online.OnlinePlayActivity"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation|uiMode"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
             android:supportsPictureInPicture="true"
             tools:targetApi="n" />
         <activity
             android:name=".ui.play.live.LivePlayActivity"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation|uiMode"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
             android:supportsPictureInPicture="true"
             tools:targetApi="n" />
         <activity android:name=".ui.scape.UserScapeActivity" />
@@ -118,7 +121,7 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.play.season.SeasonPlayActivity"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation|uiMode"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
             android:supportsPictureInPicture="true"
             tools:targetApi="n" />
     </application>

@@ -8,20 +8,22 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
+import com.duzhaokun123.bilibilihd2.BR
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.bases.BaseSimpleCardGridSRRVFragment
 import com.duzhaokun123.bilibilihd2.databinding.ItemHomeCardBinding
 import com.duzhaokun123.bilibilihd2.model.HomeCardModel
 import com.duzhaokun123.bilibilihd2.ui.search.SearchActivity
 import com.duzhaokun123.bilibilihd2.utils.*
-import io.github.duzhaokun123.codegen.Settings
+import com.duzhaokun123.generated.Settings
 
-class HomeFragment : BaseSimpleCardGridSRRVFragment<ItemHomeCardBinding, HomeCardModel, HomeFragment.HomeModel>(
-    R.layout.item_home_card,
-    Settings.mainCardWidthDp.let { run { if (it == 0) 500 else it }.dpToPx() },
-    HomeModel::class
-) {
-    class HomeModel: BaseModel<HomeCardModel>()
+class HomeFragment :
+    BaseSimpleCardGridSRRVFragment<ItemHomeCardBinding, HomeCardModel, HomeFragment.HomeModel>(
+        R.layout.item_home_card,
+        Settings.mainCardWidthDp.let { run { if (it == 0) 500 else it }.dpToPx() },
+        HomeModel::class
+    ) {
+    class HomeModel : BaseModel<HomeCardModel>()
 
     override suspend fun onRefreshIO(): List<HomeCardModel>? {
         return runCatching {
@@ -61,16 +63,18 @@ class HomeFragment : BaseSimpleCardGridSRRVFragment<ItemHomeCardBinding, HomeCar
     override fun initItemData(
         itemBinding: ItemHomeCardBinding, itemModel: HomeCardModel, position: Int
     ) {
-        itemBinding.model = itemModel
+//        itemBinding.model = itemModel
+        itemBinding.setVariable(BR.model, itemModel)
+        itemBinding.executePendingBindings()
     }
 
     override fun onApplyWindowInsetsCompat(insets: WindowInsetsCompat) {
         super.onApplyWindowInsetsCompat(insets)
         with(insets.maxSystemBarsDisplayCutout) {
             baseBinding.srl.updatePadding(left = left, right = right, bottom = bottom)
-            baseBinding.cf.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                bottomMargin = bottom
-            }
+//            baseBinding.cf.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+//                bottomMargin = bottom
+//            }
         }
     }
 
@@ -84,5 +88,14 @@ class HomeFragment : BaseSimpleCardGridSRRVFragment<ItemHomeCardBinding, HomeCar
             return true
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onNavigationItemReselected(item: MenuItem) {
+        if (baseBinding.rv.canScrollVertically(-1)) {
+            baseBinding.rv.smoothScrollToPosition(0)
+        } else {
+            // 已到顶部
+            baseBinding.srl.autoRefresh()
+        }
     }
 }

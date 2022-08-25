@@ -4,4 +4,11 @@
         <attr name="ration" format="float" />
     </declare-styleable>
     <attr name="filterChip" format="reference" />
+    <!--圆角矩形图片-->
+    <declare-styleable name="CircleImageView">
+        <attr name="circle" format="boolean" />
+        <attr name="radius" format="dimension" />
+        <attr name="border_width" format="integer"/>
+        <attr name="border_color" format="color"/>
+    </declare-styleable>
 </resources>
